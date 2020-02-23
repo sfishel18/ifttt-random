@@ -1,0 +1,32 @@
+{
+  "name": "ifttt-random",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "touch .env && source .env && AUTH_KEY=$AUTH_KEY functions-framework --source ./index.js --target index",
+    "test": "touch .env && source .env && AUTH_KEY=$AUTH_KEY jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sfishel18/ifttt-random.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sfishel18/ifttt-random/issues"
+  },
+  "homepage": "https://github.com/sfishel18/ifttt-random#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@google-cloud/functions-framework": "^1.4.0",
+    "concurrently": "^5.1.0",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "promise-tools": "^2.1.0",
+    "wait-on": "^4.0.0"
+  }
+}

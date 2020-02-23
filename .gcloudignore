@@ -1,0 +1,9 @@
+.env
+.git
+.github
+.gitignore
+.gcloudignore
+*.test.js
+LICENSE
+README.md
+node_modules
