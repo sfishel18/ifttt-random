@@ -3,15 +3,37 @@ name: CI
 on: [push]
 
 jobs:
-  build:
-
+  Test:
     runs-on: ubuntu-latest
+    container: node:10-alpine
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - uses: actions/checkout@v1
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        env:
+          AUTH_KEY: ${{ secrets.AUTH_KEY }}
+        run: ./node_modules/.bin/concurrently -k --success first "npm run start" "npm run test"
+
+  Deploy:
+    runs-on: ubuntu-latest
+    container: google/cloud-sdk:alpine
+    needs: Test
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Init Gcloud CLI
+        env:
+          GCLOUD_SERVICE_KEY: ${{ secrets.GCLOUD_SERVICE_KEY }}
+        run: |
+          echo ${GCLOUD_SERVICE_KEY} > /tmp/keyfile.json
+          gcloud auth activate-service-account --key-file /tmp/keyfile.json
+
+      - name: Deploy Cloud Function
+        env:
+          AUTH_KEY: ${{ secrets.AUTH_KEY }}
+        run: gcloud functions deploy choose --project ifttt-random --runtime nodejs10 --entry-point index --trigger-http --allow-unauthenticated --set-env-vars AUTH_KEY=$AUTH_KEY
