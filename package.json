@@ -19,7 +19,7 @@
   "homepage": "https://github.com/sfishel18/ifttt-random#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@google-cloud/functions-framework": "^1.4.0",
